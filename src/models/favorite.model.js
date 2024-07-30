@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 
-const favoriteSchema  = new schema(
+const favoriteSchema  = new Schema(
     {
         owner  : {
            type:Schema.Types.ObjectId,

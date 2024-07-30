@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose , {Schema} from "mongoose";
 
-const propertySchema = new schema(
+const propertySchema = new Schema(
     {
 
         owner : {
@@ -32,7 +32,7 @@ const propertySchema = new schema(
              {type : String, }
         ], 
         address : {
-            type : schema.types.ObjectId,
+            type : Schema.Types.ObjectId,
             ref : 'Address'
         }
          

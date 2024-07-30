@@ -1,3 +1,4 @@
+
 import { Address } from "../models/address.model.js";
 import { Property } from "../models/property.model.js";
 import { UploadOnCloudinary } from "../utils/cloudinary.js";
@@ -110,19 +111,8 @@ export const DeleteProperty = async (req, res) => {
   }
 };
 
-export const GetAllProperties = async (req, res) => {
-  try {
-    const properties = await Property.find().populate("address");
-    res.status(200).json(properties);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: "Something went wrong while fetching all properties",
-    });
-  }
-};
 
-export const filterProperties = async (req, res) => {
+export const GetAllProperties = async (req, res) => {
   const { type, size, minCost, maxCost, city, state, country } = req.query;
 
   try {
@@ -149,11 +139,13 @@ export const filterProperties = async (req, res) => {
     }
 
     const properties = await Property.find(propertyQuery).populate('address');
+    if(properties.length == 0){
+      return res.status(400).json({message : "no property found"})
+    }
 
     res.status(200).json(properties);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Something went wrong while filtering properties" });
+    res.status(500).json({ error: "Something went wrong while fetching properties" });
   }
 };
-   

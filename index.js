@@ -1,26 +1,20 @@
-import express from 'express'
+
 import dotenv from 'dotenv'
 import { ConnectDB } from './src/database/database.js';
+import { app } from './app.js';
 
 
-const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json());
+const PORT = process.env.PORT;
+
+
+
 
 dotenv.config({
     path : "./.env"
 })
 ConnectDB()
 
-// Routes
-app.use('/', (req,res)=> {
-    res.json("hello")
-
-});
-
-// Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });

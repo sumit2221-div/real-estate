@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 
-const addressSchema  = new schema(
+const addressSchema  = new Schema(
     {
         street: { type: String, required: true },
     city: { type: String, required: true },

@@ -7,6 +7,9 @@ export const addFavorite = async (req, res) => {
   if (!propertyId) {
     return res.status(400).json({ error: "Property ID is required" });
   }
+  if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+    return res.status(400).json({ error: "Invalid Property ID" });
+  }
 
   try {
    
@@ -38,4 +41,26 @@ export const GetallFavProperty = async(req,res)=>  {
       }
 
       res.status(200).json({message : "fav property found", favProperty})
+}
+
+export const RemovefromFavourite = async (req,res)=> {
+  const  {propertyId } = req.params
+
+  if (!propertyId) {
+    return res.status(400).json({ error: "Property ID is required" });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+    return res.status(400).json({ error: "Invalid Property ID" });
+  }
+
+  const property = await Favorite.findByIdAndDelete(propertyId)
+
+  if(!property){
+    return res.status(400).json({error : " property not found"})
+  }
+
+  res.status(200).json({message : "property deleted sucessfully"})
+
+
 }
