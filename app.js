@@ -22,5 +22,8 @@ import FavRoute from "./src/routes/favorite.route.js"
 app.use("/api/auth", authRoute)
 app.use("/api/property", PropertyRoute)
 app.use("/api/Favorite",FavRoute)
+app.get('/', (req, res) => {
+    res.status(200).send({ message: 'Server is up and running!' });
+});
 
 export { app };

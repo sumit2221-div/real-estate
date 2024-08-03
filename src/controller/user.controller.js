@@ -15,26 +15,25 @@ export const RegisterUser = async (req, res) => {
     return res.status(400).json({ message: "User already exists" });
   }
 
-  let avatarUrl;
+  let avatar = null;
   if (req.file) {
-    const avatar = await UploadOnCloudinary(req.file);
-    avatarUrl = avatar.url;
+    const avatarLocalPath = req.file.path;
+    avatar = await UploadOnCloudinary(avatarLocalPath);
   }
 
-  try {
+
     const newUser = await User.create({
       fullname,
       email,
       contact,
       password,
-      avatar: avatarUrl,
+      avatar: avatar.url,
     });
 
-    res.status(201).json({ newUser, message: "User created successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Something went wrong while registering user" });
-  }
+    const createdUser = await newUser.findById(newUser._id).select("-password -refreshToken");
+
+    res.status(201).json({ createdUser, message: "User created successfully" });
+  
 };
 
 export const loginUser = async (req, res) => {
