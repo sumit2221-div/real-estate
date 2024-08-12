@@ -3,7 +3,7 @@ import { UploadOnCloudinary } from "../utils/cloudinary.js";
 import bcrypt from 'bcrypt'
 
 export const RegisterUser = async (req, res) => {
-  const { fullname, email, contact, password } = req.body;
+  const { fullname, email, contact, password } = req.body
 
   if ([fullname, email, contact, password].some((field) => field?.trim() === "")) {
     return res.status(400).json({ message: "All fields are required" });
