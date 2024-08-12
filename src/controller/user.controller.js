@@ -18,7 +18,7 @@ export const RegisterUser = async (req, res) => {
   let avatar = null;
   if (req.file) {
     const avatarLocalPath = req.file.path;
-    avatar = await UploadOnCloudinary(avatarLocalPath);
+    avatar = await UploadOnCloudinary(avatarLocalPath)
   }
 
   // Hash the password before saving
