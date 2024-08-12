@@ -21,21 +21,22 @@ export const RegisterUser = async (req, res) => {
     avatar = await UploadOnCloudinary(avatarLocalPath);
   }
 
+  // Hash the password before saving
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({
-      fullname,
-      email,
-      contact,
-      password,
-      avatar: avatar.url,
-    });
+  const newUser = await User.create({
+    fullname,
+    email,
+    contact,
+    password: hashedPassword,
+    avatar: avatar ? avatar.url : null, // Ensure avatar is only set if it's uploaded
+  });
 
-    const createdUser = await newUser.findById(newUser._id).select("-password -refreshToken");
+  // Use the User model to find the user by ID
+  const createdUser = await User.findById(newUser._id).select("-password -refreshToken");
 
-    res.status(201).json({ createdUser, message: "User created successfully" });
-  
+  res.status(201).json({ createdUser, message: "User created successfully" });
 };
-
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
