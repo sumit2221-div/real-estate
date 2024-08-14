@@ -40,6 +40,13 @@ const userSchema = new Schema(
 );
 
 
+
+// Check if password matches
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+// Generate access token
 userSchema.methods.GenrateAcessToken = function () {
   return jwt.sign(
     {
