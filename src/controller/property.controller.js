@@ -15,12 +15,13 @@ export const addProperty = async (req, res) => {
     state,
     postal_code,
     country,
+    status,
   } = req.body;
   const owner = req.user._id;
 
   
   if (
-    !name ||!type || !about ||!size || !cost || !street || !city || !state || !postal_code || !country) {
+    !name ||!type || !about ||!size || !cost || !street || !city || !state || !postal_code || !country || !status) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
