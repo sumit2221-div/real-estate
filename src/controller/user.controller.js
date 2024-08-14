@@ -14,7 +14,7 @@ export const RegisterUser = async (req, res) => {
   if (existingUser) {
     return res.status(400).json({ message: "User already exists" })
   }
-
+  
   let avatar = null;
   if (req.file) {
     const avatarLocalPath = req.file.path;
@@ -45,10 +45,10 @@ export const loginUser = async (req, res) => {
     return res.status(400).json({ message: "User not found" });
   }
 
-  const matchPassword = await user.isPasswordCorrect(password);
-  if (!matchPassword) {
-    return res.status(400).json({ error: "Incorrect password" });
-  }
+  const isPasswordCorrect = await user.isPasswordCorrect(password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: 'Incorrect password' });
+    }
 
   const accessToken = user.GenrateAcessToken();
   const refreshToken = user.generateRefreshToken();
