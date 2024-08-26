@@ -6,9 +6,9 @@ import { upload } from "../middleware/multer.js";
 
 const router = Router();
 
-router.route("/").post(VerifyJWT, upload.array("photos"), addProperty).get(VerifyJWT, GetAllProperties);
+router.route("/").post(VerifyJWT, upload.array("photos"), addProperty).get( GetAllProperties);
 router.route("/P/:propertyId").delete(VerifyJWT, DeleteProperty);
-router.route("/propertyId").get(VerifyJWT, GetPropertyById);
+router.route("/propertyId").get( GetPropertyById);
 
 
 export default router;
