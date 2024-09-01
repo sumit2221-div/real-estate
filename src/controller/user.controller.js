@@ -136,7 +136,7 @@ export const getUserDetails = async (req, res) => {
 
     // Convert userId to ObjectId
     const userDetails = await User.aggregate([
-      { $match: { _id: mongoose.Types.ObjectId(userId) } },
+      { $match: { _id:  new mongoose.Types.ObjectId(userId) } },
       {
         $lookup: {
           from: 'properties',
