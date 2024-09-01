@@ -170,6 +170,10 @@ export const getUserDetails = async (req, res) => {
 export const getCurrentUser = async (req, res) => {
   
     const userId = req.user._id;
+    if( !userId){
+      res.status(400).json({error : "invalid userID"})
+
+    }
 
     const user = await User.findById(userId)
       .select("-password -refreshToken") 
