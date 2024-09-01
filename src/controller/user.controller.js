@@ -131,40 +131,38 @@ export const changeAvatar = async (req, res) => {
 };
 
 export const getUserDetails = async (req, res) => {
-    try {
-      const userId = req.user._id;
-  
-      const userDetails = await User.aggregate([
-        { $match: { _id: mongoose.Types.ObjectId(userId) } },
-        {
-          $lookup: {
-            from: 'properties',
-            localField: '_id',
-            foreignField: 'owner',
-            as: 'uploadedProperties'
-          }
-        },
-        {
-          $project: {
-            fullname: 1,
-            email: 1,
-            contact: 1,
-            avatar: 1,
-            uploadedProperties: 1
-          }
+  try {
+    const userId = req.user._id;
+
+    // Convert userId to ObjectId
+    const userDetails = await User.aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: 'properties',
+          localField: '_id',
+          foreignField: 'owner',
+          as: 'uploadedProperties'
         }
-      ]);
-  
-      if (userDetails.length === 0) {
-        return res.status(404).json({ message: "User not found" });
+      },
+      {
+        $project: {
+          fullname: 1,
+          email: 1,
+          contact: 1,
+          avatar: 1,
+          uploadedProperties: 1
+        }
       }
-  
-      res.status(200).json(userDetails[0]);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Something went wrong while fetching user details" });
+    ]);
+
+    if (userDetails.length === 0) {
+      return res.status(404).json({ message: "User not found" });
     }
-  };
 
- 
-
+    res.status(200).json(userDetails[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong while fetching user details" });
+  }
+};
