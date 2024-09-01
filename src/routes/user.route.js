@@ -1,4 +1,4 @@
-import { RegisterUser, loginUser,logoutUser,changeAvatar,changePassword,getUserDetails,getCurrentUser } from "../controller/user.controller.js";
+import { RegisterUser, loginUser,logoutUser,changeAvatar,changePassword,getUserDetails } from "../controller/user.controller.js";
 import {VerifyJWT} from "../middleware/auth.middleware.js"
 import { Router } from "express";
 import {upload} from "../middleware/multer.js"
