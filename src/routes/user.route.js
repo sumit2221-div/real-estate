@@ -12,7 +12,7 @@ router.route("/login").post(loginUser)
 router.route("/logout").post(VerifyJWT,logoutUser)
 router.route("/change-avatar").patch(VerifyJWT , upload.single("avatar"), changeAvatar)
 router.route("change-password").post(VerifyJWT, changePassword)
-router.route("/user-Details").get(VerifyJWT, getUserDetails)
-router.route("/current-user").get(VerifyJWT, getCurrentUser)
+router.route("/user-Details/:userId").get(VerifyJWT, getUserDetails)
+
 
 export default router

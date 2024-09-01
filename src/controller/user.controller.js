@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import { UploadOnCloudinary } from "../utils/cloudinary.js";
 import bcrypt from 'bcrypt'
+import mongoose from "mongoose";
 
 export const RegisterUser = async (req, res) => {
   const { fullname, email, contact, password } = req.body
@@ -167,22 +168,3 @@ export const getUserDetails = async (req, res) => {
 
  
 
-export const getCurrentUser = async (req, res) => {
-  
-    const userId = req.user._id;
-    if( !userId){
-      res.status(400).json({error : "invalid userID"})
-
-    }
-
-    const user = await User.findById(userId)
-      .select("-password -refreshToken") 
-      
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.status(200).json({message: "user found", user});
-  
-};
