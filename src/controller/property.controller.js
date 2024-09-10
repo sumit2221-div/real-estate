@@ -31,7 +31,7 @@ export const addProperty = async (req, res) => {
     return res.status(400).json({ message: "Property with this name already exists" });
   }
 
-  try {
+
     // Create address
     const address = await Address.create({
       street,
@@ -72,12 +72,8 @@ export const addProperty = async (req, res) => {
       message: "Property added successfully",
       property: newProperty,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: "Something went wrong while creating the property",
-    });
-  }
+  
+  
 };
 
 export const GetPropertyById = async (req, res) => {
