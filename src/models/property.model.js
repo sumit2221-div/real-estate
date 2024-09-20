@@ -29,7 +29,7 @@ const propertySchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['sell', 'rent'],
+  
       required: true,
     },
     photos: [
