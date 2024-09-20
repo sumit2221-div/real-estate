@@ -30,7 +30,7 @@ const propertySchema = new Schema(
     status: {
       type: String,
   
-      required: true,
+     
     },
     photos: [
       {
