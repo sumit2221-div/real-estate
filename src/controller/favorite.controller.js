@@ -25,7 +25,7 @@ export const addFavorite = async (req, res) => {
       property: propertyId,
     });
 
-    res.status(201).json({ message: "Property added to favorites", favorite });
+    res.status(201).json({ message: "Property added to favorites", favorite});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong while adding the property to favorites" });
