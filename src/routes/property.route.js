@@ -8,7 +8,7 @@ const router = Router();
 
 router.route("/").post(VerifyJWT, upload.array("photos"), addProperty).get( GetAllProperties);
 router.route("/P/:propertyId").delete(VerifyJWT, DeleteProperty);
-router.route("/propertyId").get( GetPropertyById);
+router.route("/:propertyId").get( GetPropertyById);
 
 
 export default router;
