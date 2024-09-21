@@ -4,78 +4,50 @@ import { Property } from "../models/property.model.js";
 import { UploadOnCloudinary } from "../utils/cloudinary.js";
 
 export const addProperty = async (req, res) => {
-  const {
-    name,
-    type,
-    about,
-    size,
-    cost,
-    street,
-    city,
-    state,
-    postal_code,
-    country,
-    status,
-  } = req.body;
+  const { name, type, about, size, cost, street, city, state, postal_code, country, status } = req.body;
   const owner = req.user._id;
 
-  
-  if (
-    !name ||!type || !about ||!size || !cost || !street || !city || !state || !postal_code || !country || !status) {
+  // Validation
+  const requiredFields = [name, type, about, size, cost, street, city, state, postal_code, country, status];
+  if (requiredFields.some(field => !field)) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  // Check if property with same name already exists
-  const existingProperty = await Property.findOne({ name });
-  if (existingProperty) {
-    return res.status(400).json({ message: "Property with this name already exists" });
-  }
-
+  try {
+    // Check if property with the same name already exists
+    const existingProperty = await Property.findOne({ name });
+    if (existingProperty) {
+      return res.status(400).json({ message: "Property with this name already exists" });
+    }
 
     // Create address
-    const address = await Address.create({
-      street,
-      city,
-      state,
-      postal_code,
-      country,
-    });
+    const address = await Address.create({ street, city, state, postal_code, country });
 
     // Upload photos to Cloudinary
     const photoUrls = [];
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
         const uploadedPhoto = await UploadOnCloudinary(file.path);
+        if (!uploadedPhoto) throw new Error("Error uploading photo to Cloudinary");
         photoUrls.push(uploadedPhoto.url);
       }
     }
 
     // Create new property
     const newProperty = await Property.create({
-      owner,
-      name,
-      type,
-      about,
-      size,
-      cost,
-      photos: photoUrls,
-      address: address._id,
-      status,
+      owner, name, type, about, size, cost, photos: photoUrls, address: address._id, status,
     });
-
-    if (!newProperty) {
-      return res.status(400).json({
-        error: "Something went wrong while creating the property",
-      });
-    }
 
     res.status(201).json({
       message: "Property added successfully",
       property: newProperty,
     });
-  
-  
+  } catch (error) {
+    console.error("Error adding property:", error);
+    res.status(500).json({ error: "Something went wrong while creating the property" });
+  }
 };
+
 
 export const GetPropertyById = async (req, res) => {
   const { propertyId } = req.params;
