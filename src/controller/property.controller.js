@@ -60,6 +60,7 @@ export const addProperty = async (req, res) => {
       cost,
       photos: photoUrls,
       address: address._id,
+      status,
     });
 
     if (!newProperty) {
