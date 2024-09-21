@@ -1,3 +1,4 @@
+import { isValidObjectId } from "mongoose";
 import { Favorite } from "../models/favorite.model.js";
 
 export const addFavorite = async (req, res) => {
@@ -7,7 +8,7 @@ export const addFavorite = async (req, res) => {
   if (!propertyId) {
     return res.status(400).json({ error: "Property ID is required" });
   }
-  if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+  if (!isValidObjectId(propertyId)) {
     return res.status(400).json({ error: "Invalid Property ID" });
   }
 
