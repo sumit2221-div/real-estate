@@ -49,21 +49,24 @@ export const addProperty = async (req, res) => {
 };
 
 
+
+
 export const GetPropertyById = async (req, res) => {
   const { propertyId } = req.params;
 
   try {
     const property = await Property.findById(propertyId);
     if (!property) {
-      return res.status(400).json({ error: "Property not found" });
+      return res.status(404).json({ error: "Property not found" });
     }
 
-    res.status(200).json({ message: "Property found", property: property });
+    res.status(200).json(property); // Directly return the property object
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong while fetching the property" });
   }
 };
+
 
 export const DeleteProperty = async (req, res) => {
   const { propertyId } = req.params;
