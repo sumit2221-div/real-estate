@@ -1,4 +1,4 @@
-import { RegisterUser, loginUser,logoutUser,changeAvatar,changePassword,getUserDetails } from "../controller/user.controller.js";
+import { RegisterUser, loginUser,logoutUser,changeAvatar,changePassword,getUserDetails ,getUserById} from "../controller/user.controller.js";
 import {VerifyJWT} from "../middleware/auth.middleware.js"
 import { Router } from "express";
 import {upload} from "../middleware/multer.js"
@@ -13,6 +13,8 @@ router.route("/logout").post(VerifyJWT,logoutUser)
 router.route("/change-avatar").patch(VerifyJWT , upload.single("avatar"), changeAvatar)
 router.route("change-password").post(VerifyJWT, changePassword)
 router.route("/user-Details/").get(VerifyJWT, getUserDetails)
+router.route("/:userId").get(getUserById)
+
 
 
 export default router

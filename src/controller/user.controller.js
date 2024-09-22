@@ -166,3 +166,25 @@ export const getUserDetails = async (req, res) => {
     res.status(500).json({ error: "Something went wrong while fetching user details" });
   }
 };
+export const getUserById = async (req, res) => {
+  try {
+    const { userId } = req.params; 
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+    const user  = await User.findById(userId)
+
+    if(!user){
+      return res.status(404).json({message : "user not found"})
+    }
+
+ 
+  
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong while fetching the user details" });
+  }
+};
