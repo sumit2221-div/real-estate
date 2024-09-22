@@ -18,10 +18,12 @@ app.use(cookieParser());
 import authRoute from "./src/routes/user.route.js"
 import PropertyRoute from "./src/routes/property.route.js"
 import FavRoute from "./src/routes/favorite.route.js"
+import addressroute from "./src/routes/address.route.js"
 
 app.use("/api/auth", authRoute)
 app.use("/api/property", PropertyRoute)
 app.use("/api/Favorite",FavRoute)
+app.use("/api/address", addressroute)
 app.get('/', (req, res) => {
     res.status(200).send({ message: 'Server is up and running!' });
 });
